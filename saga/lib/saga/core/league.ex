@@ -1,5 +1,5 @@
 defmodule Saga.Core.League do
-  alias Saga.Core.{GameResult, Player}
+  alias Saga.Core.{GameResult, Player, Stats}
   @enforce_keys ~w[name description admin results]a
   defstruct ~w[name description admin results]a
 
@@ -53,4 +53,47 @@ defmodule Saga.Core.League do
   def get_unique_players_recursive([], map) do
     map
   end
+
+  def get_stats_recursive(
+        [%GameResult{player1: p1, player2: p2, result: result} | tail],
+        stats_map
+      ) do
+    updated_map =
+      stats_map
+      |> update_stats(p1, outcome_player1(result))
+      |> update_stats(p2, outcome_player2(result))
+
+    get_stats_recursive(tail, updated_map)
+  end
+
+  def get_stats_recursive([], stats_map) do
+    stats_map
+  end
+
+  def update_stats(map, %Player{id: id, name: name}, result) do
+    map
+    |> Map.update(id, first_game(name, result), fn stats -> increment_stats(stats, result) end)
+  end
+
+  def increment_stats(%Stats{wins: n} = st, :win),
+    do: %Stats{st | wins: n + 1} |> increment_games
+
+  def increment_stats(%Stats{losses: n} = st, :loss),
+    do: %Stats{st | losses: n + 1} |> increment_games
+
+  def increment_stats(%Stats{draws: n} = st, :draw),
+    do: %Stats{st | draws: n + 1} |> increment_games
+
+  def increment_games(%Stats{games: g} = st), do: %Stats{st | games: g + 1}
+
+  def first_game(name, :win), do: Stats.first_win(name)
+  def first_game(name, :loss), do: Stats.first_loss(name)
+  def first_game(name, :draw), do: Stats.first_draw(name)
+
+  def outcome_player1(:player1win), do: :win
+  def outcome_player1(:player2win), do: :loss
+  def outcome_player1(:draw), do: :draw
+  def outcome_player2(:player1win), do: :loss
+  def outcome_player2(:player2win), do: :win
+  def outcome_player2(:draw), do: :draw
 end
