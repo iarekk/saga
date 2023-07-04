@@ -5,6 +5,7 @@ defmodule Saga.Core.GameResult do
 
   @type outcome :: :player1win | :player2win | :draw
 
+  @type outcome_for_player :: :win | :loss | :draw
   @type t :: %__MODULE__{
           date: DateTime.t(),
           player1: Player.t(),
@@ -35,4 +36,11 @@ defmodule Saga.Core.GameResult do
       result: result
     }
   end
+
+  def outcome_player1(:player1win), do: :win
+  def outcome_player1(:player2win), do: :loss
+  def outcome_player1(:draw), do: :draw
+  def outcome_player2(:player1win), do: :loss
+  def outcome_player2(:player2win), do: :win
+  def outcome_player2(:draw), do: :draw
 end
