@@ -30,3 +30,7 @@ updated_league =
   |> League.update_admin(p2)
 
 IO.puts("League updated: #{inspect(updated_league, pretty: true)}")
+
+stats = League.stats(updated_league)
+
+IO.puts("League stats: #{inspect(stats, pretty: true)}")
