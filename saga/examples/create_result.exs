@@ -22,11 +22,15 @@ IO.puts("League created: #{inspect(league, pretty: true)}")
 
 result1 = GameResult.player2_won(DateTime.utc_now(), p1, p2)
 result2 = GameResult.draw(DateTime.utc_now(), p1, p3)
+result3 = GameResult.player1_won(DateTime.utc_now(), p2, p3)
+result4 = GameResult.player2_won(DateTime.utc_now(), p2, p3)
 
 updated_league =
   league
   |> League.add_result(result1)
   |> League.add_result(result2)
+  |> League.add_result(result3)
+  |> League.add_result(result4)
   |> League.update_admin(p2)
 
 IO.puts("League updated: #{inspect(updated_league, pretty: true)}")
