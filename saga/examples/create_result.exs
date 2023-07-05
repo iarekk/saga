@@ -31,7 +31,7 @@ updated_league =
   |> League.add_result(result2)
   |> League.add_result(result3)
   |> League.add_result(result4)
-  |> League.update_admin(p2)
+  |> League.update_admin(p1)
 
 IO.puts("League updated: #{inspect(updated_league, pretty: true)}")
 
