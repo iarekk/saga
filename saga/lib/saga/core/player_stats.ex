@@ -1,4 +1,4 @@
-defmodule Saga.Core.Stats do
+defmodule Saga.Core.PlayerStats do
   @enforce_keys ~w[name games wins losses draws]a
   defstruct ~w[name games wins losses draws]a
 
@@ -20,16 +20,16 @@ defmodule Saga.Core.Stats do
     }
   end
 
-  def increment_stats(%__MODULE__{wins: n} = st, :win),
+  def increment(%__MODULE__{wins: n} = st, :win),
     do: %__MODULE__{st | wins: n + 1} |> increment_games
 
-  def increment_stats(%__MODULE__{losses: n} = st, :loss),
+  def increment(%__MODULE__{losses: n} = st, :loss),
     do: %__MODULE__{st | losses: n + 1} |> increment_games
 
-  def increment_stats(%__MODULE__{draws: n} = st, :draw),
+  def increment(%__MODULE__{draws: n} = st, :draw),
     do: %__MODULE__{st | draws: n + 1} |> increment_games
 
-  def increment_games(%__MODULE__{games: g} = st), do: %__MODULE__{st | games: g + 1}
+  def increment_games(%__MODULE__{} = st), do: Map.put(st, :games, st.games + 1)
 
-  def first_game(name, res), do: no_games(name) |> increment_stats(res)
+  def first_game(name, result), do: no_games(name) |> increment(result)
 end

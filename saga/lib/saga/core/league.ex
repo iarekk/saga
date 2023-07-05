@@ -1,5 +1,5 @@
 defmodule Saga.Core.League do
-  alias Saga.Core.{GameResult, Player, Stats}
+  alias Saga.Core.{GameResult, Player, PlayerStats}
   @enforce_keys ~w[name description admin results]a
   defstruct ~w[name description admin results]a
 
@@ -31,29 +31,26 @@ defmodule Saga.Core.League do
   end
 
   def stats(%__MODULE__{results: results}) do
-    get_stats_recursive(results, %{})
+    # get_stats_recursive(results, %{})
+
+    List.foldl(results, %{}, &fold_stats/2)
   end
 
-  def get_stats_recursive(
-        [%GameResult{player1: p1, player2: p2, result: result} | tail],
-        stats_map
+  def fold_stats(
+        %GameResult{} = result,
+        acc
       ) do
-    updated_map =
-      stats_map
-      |> update_stats(p1, GameResult.outcome_player1(result))
-      |> update_stats(p2, GameResult.outcome_player2(result))
-
-    get_stats_recursive(tail, updated_map)
+    acc
+    |> update_stats(GameResult.outcome_player1(result))
+    |> update_stats(GameResult.outcome_player2(result))
   end
 
-  def get_stats_recursive([], stats_map) do
-    stats_map
-  end
-
-  def update_stats(map, %Player{id: id, name: name}, result) do
+  def update_stats(map, {%Player{id: id, name: name}, result}) do
     map
-    |> Map.update(id, Stats.first_game(name, result), fn stats ->
-      Stats.increment_stats(stats, result)
-    end)
+    |> Map.update(
+      id,
+      PlayerStats.first_game(name, result),
+      &PlayerStats.increment(&1, result)
+    )
   end
 end

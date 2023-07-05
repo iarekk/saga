@@ -3,14 +3,14 @@ defmodule Saga.Core.GameResult do
   @enforce_keys ~w[date player1 player2 result]a
   defstruct ~w[date player1 player2 result]a
 
-  @type outcome :: :player1win | :player2win | :draw
+  @type game_outcome :: :player1win | :player2win | :draw
 
   @type outcome_for_player :: :win | :loss | :draw
   @type t :: %__MODULE__{
           date: DateTime.t(),
           player1: Player.t(),
           player2: Player.t(),
-          result: outcome()
+          result: game_outcome()
         }
 
   def player1_won(%DateTime{} = date, %Player{} = player1, %Player{} = player2) do
@@ -25,22 +25,21 @@ defmodule Saga.Core.GameResult do
     new(date, player1, player2, :draw)
   end
 
-  @spec new(DateTime.t(), Saga.Core.Player.t(), Saga.Core.Player.t(), outcome()) ::
-          Saga.Core.GameResult.t()
-  defp new(%DateTime{} = date, %Player{} = player1, %Player{} = player2, result)
-       when is_atom(result) do
+  defp new(%DateTime{} = date, %Player{} = player1, %Player{} = player2, outcome)
+       when is_atom(outcome) do
     %__MODULE__{
       date: date,
       player1: player1,
       player2: player2,
-      result: result
+      result: outcome
     }
   end
 
-  def outcome_player1(:player1win), do: :win
-  def outcome_player1(:player2win), do: :loss
-  def outcome_player1(:draw), do: :draw
-  def outcome_player2(:player1win), do: :loss
-  def outcome_player2(:player2win), do: :win
-  def outcome_player2(:draw), do: :draw
+  def outcome_player1(%__MODULE__{player1: p1, result: :player1win}), do: {p1, :win}
+  def outcome_player1(%__MODULE__{player1: p1, result: :player2win}), do: {p1, :loss}
+  def outcome_player1(%__MODULE__{player1: p1, result: :draw}), do: {p1, :draw}
+
+  def outcome_player2(%__MODULE__{player2: p2, result: :player1win}), do: {p2, :loss}
+  def outcome_player2(%__MODULE__{player2: p2, result: :player2win}), do: {p2, :win}
+  def outcome_player2(%__MODULE__{player2: p2, result: :draw}), do: {p2, :draw}
 end
