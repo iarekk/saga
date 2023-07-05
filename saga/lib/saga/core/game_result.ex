@@ -35,11 +35,5 @@ defmodule Saga.Core.GameResult do
     }
   end
 
-  def outcome_player1(%__MODULE__{player1: p1, result: :player1win}), do: {p1, :win}
-  def outcome_player1(%__MODULE__{player1: p1, result: :player2win}), do: {p1, :loss}
-  def outcome_player1(%__MODULE__{player1: p1, result: :draw}), do: {p1, :draw}
 
-  def outcome_player2(%__MODULE__{player2: p2, result: :player1win}), do: {p2, :loss}
-  def outcome_player2(%__MODULE__{player2: p2, result: :player2win}), do: {p2, :win}
-  def outcome_player2(%__MODULE__{player2: p2, result: :draw}), do: {p2, :draw}
 end
