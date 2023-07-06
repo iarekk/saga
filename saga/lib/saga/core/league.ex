@@ -55,12 +55,16 @@ defmodule Saga.Core.League do
   end
 
   @doc """
-  Splits the game outcome into a tuple of outcomes for player 1 and player 2 respectively.
+  Splits the game outcome into a tuple of outcomes
+  for player 1 and player 2 respectively.
 
   ## Examples
 
       iex>League.outcomes(:player1win)
       {:win, :loss}
+
+      iex>League.outcomes(:player2win)
+      {:loss, :win}
 
       iex>League.outcomes(:draw)
       {:draw, :draw}
