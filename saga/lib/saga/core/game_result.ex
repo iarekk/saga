@@ -6,7 +6,7 @@ defmodule Saga.Core.GameResult do
   @type game_outcome :: :player1win | :player2win | :draw
 
   @type outcome_for_player :: :win | :loss | :draw
-  @type t :: %__MODULE__{
+  @type t :: %Saga.Core.GameResult{
           date: DateTime.t(),
           player1: Player.t(),
           player2: Player.t(),
@@ -27,13 +27,11 @@ defmodule Saga.Core.GameResult do
 
   defp new(%DateTime{} = date, %Player{} = player1, %Player{} = player2, outcome)
        when is_atom(outcome) do
-    %__MODULE__{
+    %Saga.Core.GameResult{
       date: date,
       player1: player1,
       player2: player2,
       result: outcome
     }
   end
-
-
 end

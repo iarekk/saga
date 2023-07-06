@@ -3,7 +3,7 @@ defmodule Saga.Core.League do
   @enforce_keys ~w[name description admin results]a
   defstruct ~w[name description admin results]a
 
-  @type t :: %__MODULE__{
+  @type t :: %Saga.Core.League{
           name: String.t(),
           description: String.t(),
           admin: Player.t(),
@@ -14,7 +14,7 @@ defmodule Saga.Core.League do
       when is_binary(name) and
              is_binary(description) and
              is_list(results) do
-    %__MODULE__{
+    %Saga.Core.League{
       name: name,
       description: description,
       admin: admin,
@@ -22,15 +22,15 @@ defmodule Saga.Core.League do
     }
   end
 
-  def add_result(%__MODULE__{results: results} = league, %GameResult{} = new_result) do
-    %__MODULE__{league | results: [new_result | results]}
+  def add_result(%Saga.Core.League{results: results} = league, %GameResult{} = new_result) do
+    %Saga.Core.League{league | results: [new_result | results]}
   end
 
-  def update_admin(%__MODULE__{} = league, %Player{} = new_admin) do
-    %__MODULE__{league | admin: new_admin}
+  def update_admin(%Saga.Core.League{} = league, %Player{} = new_admin) do
+    %Saga.Core.League{league | admin: new_admin}
   end
 
-  def stats(%__MODULE__{results: results}) do
+  def stats(%Saga.Core.League{results: results}) do
     List.foldl(results, %{}, &compute_stats/2)
   end
 
