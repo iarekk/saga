@@ -28,6 +28,8 @@ defmodule Saga.Core.GameResult do
           Saga.Core.GameResult.t()
   def new(%DateTime{} = date, %Player{} = player1, %Player{} = player2, outcome)
       when is_atom(outcome) do
+    if(player1.id == player2.id, do: raise("player1 and player2 can't be same"))
+
     %Saga.Core.GameResult{
       date: date,
       player1: player1,
