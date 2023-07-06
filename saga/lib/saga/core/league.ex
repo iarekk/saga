@@ -31,45 +31,6 @@ defmodule Saga.Core.League do
   end
 
   def stats(%Saga.Core.League{results: results}) do
-    List.foldl(results, %{}, &compute_stats/2)
+    PlayerStats.compute_league_stats(results)
   end
-
-  def compute_stats(
-        %GameResult{player1: p1, player2: p2, result: res},
-        map
-      ) do
-    {p1_outcome, p2_outcome} = outcomes(res)
-
-    map
-    |> update_stats(p1, p1_outcome, p2)
-    |> update_stats(p2, p2_outcome, p1)
-  end
-
-  def update_stats(map, %Player{id: id, name: name}, result, %Player{} = opponent) do
-    map
-    |> Map.update(
-      id,
-      PlayerStats.first_game(name, result, opponent),
-      &PlayerStats.increment(&1, result, opponent)
-    )
-  end
-
-  @doc """
-  Splits the game outcome into a tuple of outcomes
-  for player 1 and player 2 respectively.
-
-  ## Examples
-
-      iex>League.outcomes(:player1win)
-      {:win, :loss}
-
-      iex>League.outcomes(:player2win)
-      {:loss, :win}
-
-      iex>League.outcomes(:draw)
-      {:draw, :draw}
-  """
-  def outcomes(:player1win), do: {:win, :loss}
-  def outcomes(:player2win), do: {:loss, :win}
-  def outcomes(:draw), do: {:draw, :draw}
 end
