@@ -1,7 +1,7 @@
 defmodule Saga.Core.GameResult do
   alias Saga.Core.Player
-  @enforce_keys ~w[date player1 player2 result]a
-  defstruct ~w[date player1 player2 result]a
+  @enforce_keys ~w[date player1 player2 outcome]a
+  defstruct ~w[date player1 player2 outcome]a
 
   @type game_outcome :: :player1win | :player2win | :draw
 
@@ -9,7 +9,7 @@ defmodule Saga.Core.GameResult do
           date: DateTime.t(),
           player1: Player.t(),
           player2: Player.t(),
-          result: game_outcome()
+          outcome: game_outcome()
         }
 
   def player1_won(%DateTime{} = date, %Player{} = player1, %Player{} = player2) do
@@ -34,7 +34,7 @@ defmodule Saga.Core.GameResult do
       date: date,
       player1: player1,
       player2: player2,
-      result: outcome
+      outcome: outcome
     }
   end
 end
