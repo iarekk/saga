@@ -48,6 +48,6 @@ jobs:
     - name: Install dependencies - Web
       run: mix deps.get
       working-directory: saga_web
-    - name: Run tests - Wb]eb
+    - name: Run tests - Web
       run: mix test
       working-directory: saga_web
