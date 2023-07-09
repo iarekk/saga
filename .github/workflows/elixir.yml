@@ -27,15 +27,27 @@ jobs:
       with:
         elixir-version: '>=1.15' # Define the elixir version [required]
         otp-version: '>=26' # Define the OTP version [required]
-    - name: Restore dependencies cache
+    - name: Restore dependencies cache - Saga
       uses: actions/cache@v3
       with:
         path: saga/deps
         key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
         restore-keys: ${{ runner.os }}-mix-
-    - name: Install dependencies
+    - name: Install dependencies - Saga
       run: mix deps.get
       working-directory: saga
-    - name: Run tests
+    - name: Run tests - Saga
       run: mix test
       working-directory: saga
+    - name: Restore dependencies cache - Web
+      uses: actions/cache@v3
+      with:
+        path: saga_web/deps
+        key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+        restore-keys: ${{ runner.os }}-mix-
+    - name: Install dependencies - Web
+      run: mix deps.get
+      working-directory: saga_web
+    - name: Run tests - Wb]eb
+      run: mix test
+      working-directory: saga_web
