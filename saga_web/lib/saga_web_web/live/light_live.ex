@@ -8,28 +8,30 @@ defmodule SagaWebWeb.LightLive do
 
   def render(assigns) do
     ~H"""
-    <h1>Front Porch Light</h1>
-    <div id="light">
+    <div class="light">
+      <h1>Front Porch Light</h1>
       <div class="meter">
         <span style={"width: #{@brightness}%"}>
           <%= @brightness %>%
         </span>
       </div>
-      <button phx-click="off">
-        🔌
-      </button>
+      <div class="buttons">
+        <button phx-click="off">
+          🔌
+        </button>
 
-      <button phx-click="down">
-        🔽
-      </button>
+        <button phx-click="down">
+          🔽
+        </button>
 
-      <button phx-click="up">
-        🔼
-      </button>
+        <button phx-click="up">
+          🔼
+        </button>
 
-      <button phx-click="on">
-        💡
-      </button>
+        <button phx-click="on">
+          💡
+        </button>
+      </div>
     </div>
     """
   end
