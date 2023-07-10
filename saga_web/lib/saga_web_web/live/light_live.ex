@@ -44,14 +44,12 @@ defmodule SagaWebWeb.LightLive do
   end
 
   def handle_event("up", _, socket) do
-    new_brightness = socket.assigns.brightness + 10
-    socket = assign(socket, :brightness, new_brightness)
+    socket = update(socket, :brightness, &(&1 + 10))
     {:noreply, socket}
   end
 
   def handle_event("down", _, socket) do
-    new_brightness = socket.assigns.brightness - 10
-    socket = assign(socket, :brightness, new_brightness)
+    socket = update(socket, :brightness, &(&1 - 10))
     {:noreply, socket}
   end
 end
