@@ -20,6 +20,8 @@ defmodule SagaWebWeb.Router do
     get "/", PageController, :home
 
     live "/light", LightLive
+
+    live "/league", LeagueLive
   end
 
   # Other scopes may use custom stacks.

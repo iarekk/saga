@@ -4,6 +4,7 @@ defmodule Saga.Core.GameResult do
   defstruct ~w[date player1 player2 outcome]a
 
   @type game_outcome :: :player1win | :player2win | :draw
+  @type player_outcome :: :win | :loss | :draw
 
   @type t :: %Saga.Core.GameResult{
           date: DateTime.t(),
@@ -37,4 +38,24 @@ defmodule Saga.Core.GameResult do
       outcome: outcome
     }
   end
+
+  @spec player_outcomes(game_outcome()) :: {player_outcome(), player_outcome()}
+  @doc """
+  Splits the game outcome into a tuple of outcomes
+  for player 1 and player 2 respectively.
+
+  ## Examples
+
+      iex>PlayerStats.player_outcomes(:player1win)
+      {:win, :loss}
+
+      iex>PlayerStats.player_outcomes(:player2win)
+      {:loss, :win}
+
+      iex>PlayerStats.player_outcomes(:draw)
+      {:draw, :draw}
+  """
+  def player_outcomes(:player1win), do: {:win, :loss}
+  def player_outcomes(:player2win), do: {:loss, :win}
+  def player_outcomes(:draw), do: {:draw, :draw}
 end

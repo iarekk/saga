@@ -3,7 +3,6 @@ defmodule Saga.Core.PlayerStats do
   @enforce_keys ~w[name games wins losses draws opponents]a
   defstruct ~w[name games wins losses draws opponents]a
 
-  @type player_outcome :: :win | :loss | :draw
   @type t :: %Saga.Core.PlayerStats{
           name: String.t(),
           games: non_neg_integer(),
@@ -29,7 +28,7 @@ defmodule Saga.Core.PlayerStats do
   end
 
   def update_stats(%GameResult{player1: p1, player2: p2, outcome: game_outcome}, map) do
-    {player1_outcome, player2_outcome} = player_outcomes(game_outcome)
+    {player1_outcome, player2_outcome} = GameResult.player_outcomes(game_outcome)
 
     map
     |> Map.update(
@@ -71,24 +70,4 @@ defmodule Saga.Core.PlayerStats do
 
   def first_game(name, result, opponent),
     do: no_games(name) |> add_game_result(result, opponent)
-
-  @spec player_outcomes(GameResult.game_outcome()) :: {player_outcome(), player_outcome()}
-  @doc """
-  Splits the game outcome into a tuple of outcomes
-  for player 1 and player 2 respectively.
-
-  ## Examples
-
-      iex>PlayerStats.player_outcomes(:player1win)
-      {:win, :loss}
-
-      iex>PlayerStats.player_outcomes(:player2win)
-      {:loss, :win}
-
-      iex>PlayerStats.player_outcomes(:draw)
-      {:draw, :draw}
-  """
-  def player_outcomes(:player1win), do: {:win, :loss}
-  def player_outcomes(:player2win), do: {:loss, :win}
-  def player_outcomes(:draw), do: {:draw, :draw}
 end
