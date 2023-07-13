@@ -32,7 +32,7 @@ defmodule Saga.Core.GameResult do
     if(player1.id == player2.id, do: raise("player1 and player2 can't be same"))
 
     %Saga.Core.GameResult{
-      date: date,
+      date: date |> DateTime.truncate(:second),
       player1: player1,
       player2: player2,
       outcome: outcome

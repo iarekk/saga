@@ -23,27 +23,38 @@ defmodule SagaWebWeb.LeagueLive do
 
   def add_player_outcomes(game_result) do
     {player1_outcome, player2_outcome} = GameResult.player_outcomes(game_result.outcome)
-    game_result |> Map.put(:player1_outcome, player1_outcome)
+    game_result
+    |> Map.put(:player1_outcome, player1_outcome)
     |> Map.put(:player2_outcome, player2_outcome)
   end
 
   def render(assigns) do
     ~H"""
-    <h1>League: <%= @league_name %></h1>
-    <h2>Description: <%= @league_description %></h2>
-    <h3>Admin: <%= @admin_name %></h3>
+    <div class="league-container">
+      <h1>League: <%= @league_name %></h1>
+      <h2>Description: <%= @league_description %></h2>
+      <h3>Admin: <%= @admin_name %></h3>
 
-    <hr/>
+      <hr/>
 
-    Games played:<br/>
-    <ul>
-    <%= for game <- @games do %>
-      <li>
-      <%= game.player1.name %>(<%= game.player1_outcome %>) vs. <%= game.player2.name %>(<%= game.player2_outcome %>) On: <%= game.date %>
-      </li>
-    <% end %>
-    </ul>
-
+      Games played:<br/>
+      <ol type="1">
+      <%= for game <- @games do %>
+        <li>
+          <div class="game-result">
+            <span class={"#{game.player1_outcome}"}>
+              <%= game.player1.name %>
+            </span>
+            vs.
+            <span class={"#{game.player2_outcome}"}>
+              <%= game.player2.name %>
+            </span>
+            on: <%= game.date %>
+          </div>
+        </li>
+      <% end %>
+      </ol>
+    </div>
     """
   end
 end

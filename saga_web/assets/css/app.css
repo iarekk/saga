@@ -4,6 +4,21 @@
 
 /* This file is for your main application CSS */
 
+.game-result .win {
+    background-color: #55aa55;
+}
+
+.game-result .loss {
+    background-color: #aa5555
+}
+
+.game-result .draw {
+    background-color: #aaaa55
+}
+
+
+/* Light */
+
 .light {
     text-align: center;
 }
