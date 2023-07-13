@@ -4,22 +4,50 @@
 
 /* This file is for your main application CSS */
 
-.game-result .win {
-    background-color: #55aa55;
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 }
 
-.game-result .loss {
-    background-color: #aa5555
+.games-grid .game-time {
+    grid-column: span 2;
+    text-align: center;
+    padding-bottom: 1rem;
 }
 
-.game-result .draw {
-    background-color: #aaaa55
+.games-grid .player1 {
+    text-align: right;
+    padding-right: 2rem;
 }
 
-.league-container ol {
-    list-style: decimal
+.games-grid .player2 {
+    text-align: left;
+    padding-left: 2rem;
 }
 
+.games-grid .player2.win {
+    background: linear-gradient(to left, rgba(0, 255, 0, 70), rgba(0, 255, 0, 0));
+}
+
+.games-grid .player1.win {
+    background: linear-gradient(to right, rgba(0, 255, 0, 70), rgba(0, 255, 0, 0));
+}
+
+.games-grid .player2.loss {
+    background: linear-gradient(to left, rgba(255, 0, 0, 70), rgba(255, 0, 0, 0));
+}
+
+.games-grid .player1.loss {
+    background: linear-gradient(to right, rgba(255, 0, 0, 70), rgba(255, 0, 0, 0));
+}
+
+.games-grid .player2.draw {
+    background: linear-gradient(to left, rgba(255, 255, 0, 70), rgba(255, 255, 0, 0));
+}
+
+.games-grid .player1.draw {
+    background: linear-gradient(to right, rgba(255, 255, 0, 70), rgba(255, 255, 0, 0));
+}
 
 /* Light */
 
