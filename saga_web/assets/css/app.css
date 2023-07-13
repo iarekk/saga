@@ -16,6 +16,10 @@
     background-color: #aaaa55
 }
 
+.league-container ol {
+    list-style: decimal
+}
+
 
 /* Light */
 
