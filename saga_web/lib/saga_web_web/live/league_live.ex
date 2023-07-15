@@ -1,9 +1,21 @@
 defmodule SagaWebWeb.LeagueLive do
+  require Logger
   use SagaWebWeb, :live_view
   alias Saga.Core.GameResult
 
-  def mount(_params, _session, socket) do
-    {:ok, socket |> add_league()}
+  def mount(params, _session, socket) do
+    Logger.info("Params: #{inspect(params)}")
+    %{"league_id" => league_id_str} = params
+
+    {league_id, _rem} = Integer.parse(league_id_str)
+
+    all_leagues = Saga.Core.MockProvider.league_list()
+
+    if(Map.has_key?(all_leagues, league_id)) do
+      {:ok, socket |> add_league(Saga.Core.MockProvider.league(league_id))}
+    else
+      raise "League id #{league_id} not found"
+    end
   end
 
   def render(assigns) do
@@ -29,9 +41,7 @@ defmodule SagaWebWeb.LeagueLive do
     """
   end
 
-  def add_league(socket) do
-    league = Saga.Core.MockProvider.sample_league()
-
+  def add_league(socket, league) do
     socket
     |> assign(:league_name, league.name)
     |> assign(:league_description, league.description)
@@ -41,7 +51,7 @@ defmodule SagaWebWeb.LeagueLive do
 
   def prep_results(results) do
     results
-    |> Enum.sort_by(& &1.date)
+    |> Enum.sort_by(& &1.date, {:asc, DateTime})
     |> Enum.map(&add_player_outcomes/1)
   end
 
