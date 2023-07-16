@@ -11,7 +11,7 @@ defmodule SagaWebWeb.LeagueLive do
 
     all_leagues = Saga.Core.MockProvider.league_list()
 
-    if(Map.has_key?(all_leagues, league_id)) do
+    if Map.has_key?(all_leagues, league_id) do
       {:ok, socket |> add_league(Saga.Core.MockProvider.league(league_id))}
     else
       raise "League id #{league_id} not found"

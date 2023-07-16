@@ -4,9 +4,9 @@ defmodule Saga.Core.MockProvider do
   def league(1), do: sample_league()
   def league(2), do: second_sample_league()
 
-  def league_list(), do: %{1 => "Chess newbies", 2 => "Chess masters"}
+  def league_list, do: %{1 => "Chess newbies", 2 => "Chess masters"}
 
-  def sample_league() do
+  def sample_league do
     player_dave = Player.create_player(1, "Dave")
     player_lisa = Player.create_player(2, "Lisa")
     player_janet = Player.create_player(3, "Janet")
@@ -52,7 +52,7 @@ defmodule Saga.Core.MockProvider do
     league
   end
 
-  def second_sample_league() do
+  def second_sample_league do
     player_alice = Player.create_player(10, "Alice")
     player_bob = Player.create_player(20, "Bob")
     player_carol = Player.create_player(30, "Carol")
