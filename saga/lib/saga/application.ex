@@ -10,6 +10,7 @@ defmodule Saga.Application do
     children = [
       # Starts a worker by calling: Saga.Worker.start_link(arg)
       # {Saga.Worker, arg}
+      {Saga.Core.MockProvider, [name: Saga.Core.MockProvider]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
