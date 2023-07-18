@@ -4,6 +4,10 @@
 
 /* This file is for your main application CSS */
 
+.leagues-list-container li {
+    list-style-type: decimal;
+}
+
 .games-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
