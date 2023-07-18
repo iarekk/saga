@@ -1,9 +1,9 @@
 defmodule Saga.Core.MockProvider do
   require Logger
   alias Saga.Core.{GameResult, League, Player}
-  use GenServer
+  use Agent
 
-  # Genserver Implementation
+  # Agent Implementation
 
   def start_link(options \\ []) do
     Logger.info("Saga.Core.MockProvider options: #{inspect(options)}")
@@ -13,41 +13,22 @@ defmodule Saga.Core.MockProvider do
       2 => second_sample_league()
     }
 
-    GenServer.start_link(__MODULE__, initial_map, options)
-  end
-
-  def init(league_map) when is_map(league_map) do
-    Logger.info("Saga.Core.MockProvider init: #{inspect(league_map)}")
-    {:ok, league_map}
-  end
-
-  def handle_call({:get_league, league_id}, _from, league_map) do
-    {:reply, league_map[league_id], league_map}
-  end
-
-  def handle_call(:league_list, _from, league_map) do
-    id_name_map =
-      league_map |> Enum.map(fn {k, %League{name: name}} -> {k, name} end) |> Map.new()
-
-    {:reply, id_name_map, league_map}
+    Agent.start_link(fn -> initial_map end, options)
   end
 
   # API
 
   def league(provider \\ __MODULE__, league_id) do
-    GenServer.call(provider, {:get_league, league_id})
+    Agent.get(provider, fn league_map -> league_map[league_id] end)
   end
 
   def league_list(provider \\ __MODULE__) do
-    GenServer.call(provider, :league_list)
+    Agent.get(provider, fn league_map ->
+      league_map |> Enum.map(fn {k, %League{name: name}} -> {k, name} end) |> Map.new()
+    end)
   end
 
   # Under the hood
-
-  # def league(1), do: sample_league()
-  # def league(2), do: second_sample_league()
-
-  # def league_list, do: %{1 => "Chess newbies", 2 => "Chess masters"}
 
   def sample_league do
     player_dave = Player.create_player(1, "Dave")
