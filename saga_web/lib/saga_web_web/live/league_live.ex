@@ -21,6 +21,7 @@ defmodule SagaWebWeb.LeagueLive do
   def render(assigns) do
     ~H"""
     <div class="league-container">
+      <.link href="/leagues">All leagues</.link>
       <h1>League: <%= @league_name %></h1>
       <h2>Description: <%= @league_description %></h2>
       <h3>Admin: <%= @admin_name %></h3>

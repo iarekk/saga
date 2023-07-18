@@ -22,6 +22,8 @@ defmodule SagaWebWeb.Router do
     live "/light", LightLive
 
     live "/league", LeagueLive
+
+    live "/leagues", LeaguesLive
   end
 
   # Other scopes may use custom stacks.
